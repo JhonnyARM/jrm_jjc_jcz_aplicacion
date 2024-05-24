@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "822859749688",
+    "project_id": "fireapp-dde81",
+    "storage_bucket": "fireapp-dde81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822859749688:android:4a9db36ddd032a271149cd",
+        "android_client_info": {
+          "package_name": "com.example.jrm_jjc_jcz_aplicacion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCBVFZAcd191EdCJEZkaWIQtK1I0g0EkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
