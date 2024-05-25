@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jrm_jjc_jcz_aplicacion/services/firebase_service.dart';
 
 class Calculadora extends StatefulWidget {
   @override
@@ -18,9 +19,14 @@ class _CalculadoraState extends State<Calculadora> {
     final double num2 = double.tryParse(_controller2.text) ?? 0.0;
     final double num3 = double.tryParse(_controller3.text) ?? 0.0;
     final double num4 = double.tryParse(_controller4.text) ?? 0.0;
+    DateTime fechaActual = DateTime.now();
+    String fechaString =
+        "${fechaActual.day}/${fechaActual.month}/${fechaActual.year}";
 
+    _result = num1 + num2 + num3 + num4;
+    addSuma(fechaString, _result);
     setState(() {
-      _result = num1 + num2 + num3 + num4;
+      _result = _result;
     });
   }
 
@@ -70,7 +76,8 @@ class _CalculadoraState extends State<Calculadora> {
               onPressed: _calculateSum,
               child: Text('Calcular'),
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Colors.yellow,
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.yellow,
               ),
             ),
             SizedBox(height: 20),
@@ -79,7 +86,10 @@ class _CalculadoraState extends State<Calculadora> {
               color: Colors.blue,
               child: Text(
                 'Respuesta: $_result',
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -87,5 +97,19 @@ class _CalculadoraState extends State<Calculadora> {
         ),
       ),
     );
+  }
+}
+
+class ListCalc extends StatefulWidget {
+  const ListCalc({super.key});
+
+  @override
+  State<ListCalc> createState() => _ListCalcState();
+}
+
+class _ListCalcState extends State<ListCalc> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
   }
 }

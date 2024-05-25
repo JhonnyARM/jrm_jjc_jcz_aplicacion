@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-/* import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart'; */
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 
 // instancia de bd
 FirebaseFirestore db = FirebaseFirestore.instance;
@@ -133,3 +133,7 @@ Future<void> deleteProveedor(String uid) async {
   await db.collection('proveedor').doc(uid).delete();
 }
 
+// METODO CALCULADORA
+Future<void> addSuma(String date, double suma) async {
+  await db.collection('calculadora').add({"fecha": date,"calculo":suma});
+}

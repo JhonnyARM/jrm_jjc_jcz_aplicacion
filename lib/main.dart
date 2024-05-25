@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jrm_jjc_jcz_aplicacion/jcz_ColorSelectPage.dart';
 import 'package:jrm_jjc_jcz_aplicacion/jcz_menu_radiobutton_selectrange.dart';
@@ -10,7 +11,9 @@ import '../img_slider.dart';
 import '../switch_time_picker_view.dart';
 import '../theme_provider.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(/* const Home() */
   ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
