@@ -59,26 +59,33 @@ class _CalculadoraState extends State<Calculadora> {
             TextField(
               controller: _controller2,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Dato 1'),
+              decoration: InputDecoration(labelText: 'Dato 2'),
             ),
             TextField(
               controller: _controller3,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Dato 1'),
+              decoration: InputDecoration(labelText: 'Dato 3'),
             ),
             TextField(
               controller: _controller4,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Dato 1'),
+              decoration: InputDecoration(labelText: 'Dato 4'),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _calculateSum,
-              child: Text('Calcular'),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.yellow,
-              ),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: _calculateSum,
+                  child: Text('Calcular'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.yellow,
+                  ),
+                ),
+                ElevatedButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: ((context) => ListCalc())));
+                }, child: Text("Ver"))
+              ],
             ),
             SizedBox(height: 20),
             Container(
@@ -110,6 +117,51 @@ class ListCalc extends StatefulWidget {
 class _ListCalcState extends State<ListCalc> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sumas'),
+      ),
+      body: FutureBuilder(
+        future: getSuma(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Muestra un indicador de carga mientras se espera la data
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            // Muestra un mensaje de error si ocurre un error al obtener la data
+            return Center(
+              child: Text(
+                "Error al cargar los datos",
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          } else {
+            // Lista los elementos del snapshot
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                // Obtén el dato actual del snapshot
+                var suma = snapshot.data![index];
+                return ListTile(
+                  title: Text("Resultado : " + suma['calculo'].toString() +" | Fecha "+ suma['fecha']),
+                  // Agrega funcionalidad al presionar un elemento de la lista
+                  onTap: () {
+                    // Agrega aquí la lógica que desees al presionar un elemento
+                    // Por ejemplo, actualización de UI o navegación a otra pantalla
+                  },
+                );
+              },
+            );
+          }
+        },
+      ),
+    );
   }
 }
+

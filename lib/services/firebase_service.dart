@@ -101,7 +101,7 @@ Future<void> deleteCategorias(String uid) async {
 /// METODO PARA PROVEEDORES
 
 Future<List> getProveedor() async {
-  List categoria = [];
+  List suma = [];
   CollectionReference collectionReferenceCategoria =
       db.collection('proveedor');
 
@@ -110,15 +110,15 @@ Future<List> getProveedor() async {
   for (var doc in queryCategorias.docs) {
     
     final Map<String,dynamic> data = doc.data() as Map<String,dynamic>;
-    final categ = {
-      "nombre": data['nombre'],
+    final sum = {
+      "calculo": data['calculo'],
+      "fecha": data['fecha'],
       "uid": doc.id
     };
     
-    categoria.add(categ);
+    suma.add(sum);
   }
-
-  return categoria;
+  return suma;
 }
 
 Future<void> addProveedor(String nombre) async {
@@ -134,6 +134,37 @@ Future<void> deleteProveedor(String uid) async {
 }
 
 // METODO CALCULADORA
+Future<List> getSuma() async {
+  List categoria = [];
+  CollectionReference collectionReferenceCategoria =
+      db.collection('calculadora');
+
+  QuerySnapshot queryCategorias = await collectionReferenceCategoria.get();
+
+  for (var doc in queryCategorias.docs) {
+    
+    final Map<String,dynamic> data = doc.data() as Map<String,dynamic>;
+    final categ = {
+      "calculo": data['calculo'],
+      "fecha": data['fecha']
+    };
+    
+    categoria.add(categ);
+  }
+  return categoria;
+}
 Future<void> addSuma(String date, double suma) async {
   await db.collection('calculadora').add({"fecha": date,"calculo":suma});
+}
+
+// METODO PARA CHECKBOX
+
+Future<void> addList(String date, List<String> productos) async {
+  final Map<String, dynamic> newList = {
+    "fecha": date,
+    "productos": productos
+  };
+
+  // Guardar en la base de datos
+  await db.collection('productos').add(newList);
 }
