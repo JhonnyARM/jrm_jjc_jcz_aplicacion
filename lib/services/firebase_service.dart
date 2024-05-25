@@ -1,9 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // instancia de bd
 FirebaseFirestore db = FirebaseFirestore.instance;
+
+Future<void> addColor(String color) async {
+  DateTime now = DateTime.now();
+  
+  String formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+  
+  await db.collection('color').add({
+    "color": color,
+    "timestamp": formattedDateTime, 
+  });
+}
 
 // ========================================================== METODOS PARA USUARIOS =======
 // FUNCION PARA OBTENER DATOS DE NUESTRA FIREBASE FIRESTORE
@@ -136,4 +148,36 @@ Future<void> deleteProveedor(String uid) async {
 // METODO CALCULADORA
 Future<void> addSuma(String date, double suma) async {
   await db.collection('calculadora').add({"fecha": date,"calculo":suma});
+}
+
+
+
+Future<void> addValuesRadio(String valor1,valor2) async {
+  DateTime now = DateTime.now();
+  
+  String formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+
+  await db.collection('radio').add({
+    "valor1": valor1,
+    "valor2": valor2,
+    "timestamp": formattedDateTime,
+  });
+}
+
+Future<List<Map<String, dynamic>>> getRadioValues() async {
+  List<Map<String, dynamic>> radioValues = [];
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('radio').get();
+    querySnapshot.docs.forEach((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      radioValues.add({
+        "valor1": data['valor1'],
+        "valor2": data['valor2'],
+        "timestamp": data['timestamp'],
+      });
+    });
+  } catch (e) {
+    print("Error al obtener los valores de la colección 'radio': $e");
+  }
+  return radioValues;
 }

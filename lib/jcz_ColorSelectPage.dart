@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'services/firebase_service.dart'; // Importa el servicio de Firebase
 
 class ColorSelectPage extends StatefulWidget {
   const ColorSelectPage({Key? key}) : super(key: key);
@@ -9,6 +11,22 @@ class ColorSelectPage extends StatefulWidget {
 
 class _ColorSelectPageState extends State<ColorSelectPage> {
   Color _selectedColor = Colors.white;
+
+  Widget buildColorButton(Color color, String colorName) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            // Actualiza el color seleccionado al hacer clic en el botón
+            _selectedColor = color;
+          });
+          addColor(colorName); // Llama a la función addColor con el nombre del color
+        },
+        child: Text('Enviar $colorName'), // Muestra el nombre del color en el botón
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +43,7 @@ class _ColorSelectPageState extends State<ColorSelectPage> {
             SizedBox(height: 28),
             Container(
               color: Colors.yellow,
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(0),
               child: Text(
                 'Opciones de Colores',
                 style: TextStyle(color: Colors.white, fontSize: 30),
@@ -83,7 +101,7 @@ class _ColorSelectPageState extends State<ColorSelectPage> {
             SizedBox(height: 0),
             Container(
               color: Colors.blue,
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(0),
               child: Column(
                 children: [
                   SizedBox(height: 0),
@@ -93,6 +111,7 @@ class _ColorSelectPageState extends State<ColorSelectPage> {
                     color: _selectedColor,
                     alignment: Alignment.center,
                   ),
+                  buildColorButton(_selectedColor, getColorName(_selectedColor)), // Agregar el botón dentro del método buildColorButton()
                 ],
               ),
             ),
@@ -100,6 +119,17 @@ class _ColorSelectPageState extends State<ColorSelectPage> {
         ),
       ),
     );
+  }
+
+  String getColorName(Color color) {
+    // Mapa de colores y sus nombres asociados
+    Map<Color, String> colorNames = {
+      Colors.yellow: 'Amarillo',
+      Colors.red: 'Rojo',
+      Colors.green: 'Verde',
+      Colors.black: 'Negro',
+    };
+    return colorNames[color] ?? 'Desconocido'; // Devuelve el nombre del color o 'Desconocido' si no se encuentra
   }
 }
 
